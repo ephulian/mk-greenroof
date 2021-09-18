@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    container_name: greenroof_db
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=gr
+      - POSTGRES_PASSWORD=gr
+      - POSTGRES_DB=gr
+    ports:
+      - 5432:5432
+  web:
+    container_name: greenroof_web
+    env_file: .env
+    build:
+        context: .
+        dockerfile: ./docker/greenroof/dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    command: >
+        bash -c "
+        python3 manage.py migrate --noinput &&
+        python3 manage.py runserver 0.0.0.0:8080
+        "
+    volumes:
+      - .:/opt/gr
+    working_dir: /opt/gr
+volumes:
+  pgdata:
