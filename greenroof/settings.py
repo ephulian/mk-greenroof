@@ -36,7 +36,7 @@ DEBUG = bool_from_env('GR_DEBUG', False)
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = [""]
+    ALLOWED_HOSTS = ["prototype.mkhackathon.org"]
 
 
 # Application definition
