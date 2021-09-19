@@ -54,6 +54,20 @@ class SensorDataConverter():
             output = (((int(self.illum_input, 2) - old_min) * new_range) / oldrange) + new_min
         return output
 
+    def sensor_location(self):
+        device_location = ''
+        device_name = ''
+        if self.device_id == '0420F51E':
+            device_location = 'Near Green Roof'
+            device_name = 'Red 1'
+        elif self.device_iddevice_id == '0420 FDDA':
+            device_location = 'Near Control Slab'
+            device_name = 'Red 2'
+        elif self.device_id == '0420 F51F':
+            device_location = 'Enviroment Temp'
+            device_name = 'Red 3'
+        return device_location, device_name
+
 # Returns battery charge if available, returns False otherwise
 def battery_reading(incoming_data):
     battery_reading = incoming_data[33:49]
@@ -63,16 +77,16 @@ def battery_reading(incoming_data):
     return False
 
 # Checks the device ID and returns its name and location
-def sensor_location(device_id):
-    device_location = ''
-    device_name = ''
-    if device_id == '0420F51E':
-        device_location = 'Near Green Roof'
-        device_name = 'Red 1'
-    elif device_id == '0420 FDDA':
-        device_location = 'Near Control Slab'
-        device_name = 'Red 2'
-    elif device_id == '0420 F51F':
-        device_location = 'Enviroment Temp'
-        device_name = 'Red 3'
-    return device_location, device_name
+# def sensor_location(device_id):
+#     device_location = ''
+#     device_name = ''
+#     if device_id == '0420F51E':
+#         device_location = 'Near Green Roof'
+#         device_name = 'Red 1'
+#     elif device_id == '0420 FDDA':
+#         device_location = 'Near Control Slab'
+#         device_name = 'Red 2'
+#     elif device_id == '0420 F51F':
+#         device_location = 'Enviroment Temp'
+#         device_name = 'Red 3'
+#     return device_location, device_name
