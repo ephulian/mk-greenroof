@@ -1,5 +1,3 @@
-incoming_data = "2021-09-18_14:35:49 EnO_0420F51E A19DC01C23B6FDD880"
-
 ### STATS CALCULATION
 # Temperature 24.6C, Humidity 59.5%, Illumination 225 lx
 # A19DC01C23B6FDD880 in Binary is 1010 0001 1001 1101 1100 0000 0001....
@@ -13,7 +11,7 @@ incoming_data = "2021-09-18_14:35:49 EnO_0420F51E A19DC01C23B6FDD880"
 # Next 17 bits are Illumination = 000000000111001001 =
 # Illumination Range is 0 to 100,000 for 0 to 100,000 so 225 = 225 lx (edited)
 
-class SensorDataConverter():
+class SensorDataConverter:
 
 
     def __init__(self, incoming_data):
@@ -30,7 +28,6 @@ class SensorDataConverter():
         self.year = incoming_data[:4]
         self.month = incoming_data[5:7]
         self.date = incoming_data[8:10]
-
         self.time = incoming_data[11:19]
 
         self.device_id = incoming_data[24:32]
@@ -49,17 +46,23 @@ class SensorDataConverter():
         old_min = 0
         new_max = 100000
         new_min = 0
-        oldrange = (old_max - old_min)
+        old_range = (old_max - old_min)
         if oldrange == 0:
             output = new_min
         else:
             new_range = (new_max - new_min)
-            output = (((int(self.illum_input, 2) - old_min) * new_range) / oldrange) + new_min
+            output = (((int(self.illum_input, 2) - old_min) * new_range) / old_range) + new_min
         return output
 
+# Returns battery charge if available, returns False otherwise
+def battery_reading(incoming_data):
+    battery_reading = incoming_data[33:49]
+    if 'batteryPercent' in battery_reading:
+        battery_percent = incoming_data[49:53]
+        return battery_percent
+    return False
 
-sensor1 = SensorDataConverter(incoming_data)
-
+# Checks the device ID and returns its name and location
 def sensor_location(device_id):
     device_location = ''
     device_name = ''
