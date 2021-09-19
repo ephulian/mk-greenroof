@@ -7,8 +7,12 @@ class ExperimentData(models.Model):
     control_top = models.FloatField(null=True)
     green_roof_middle = models.FloatField(null=True)
     control_bottom = models.FloatField(null=True)
-    moist_s0 = models.IntegerField()
-    moist_s1 = models.IntegerField()
+
+    surface_heat_difference = models.FloatField(null=True) # control top - green middle
+    bottom_difference = models.FloatField(null=True) # control bottom - green bottom
+
+    moist_s0 = models.IntegerField(null=True)
+    moist_s1 = models.IntegerField(null=True)
 
 class AmbientData(models.Model):
     recorded_at = models.DateTimeField(null=True)

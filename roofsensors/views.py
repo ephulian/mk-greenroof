@@ -2,6 +2,9 @@ import json
 from django.views.generic import View
 from django.http import JsonResponse
 
+from django.conf import settings
+from django.utils.timezone import make_aware
+
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -13,12 +16,34 @@ from datetime import datetime
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SensorDataView(View):
+
+    def validate_key(self, key, data):
+        if key in data and data[key] > -100:
+            return data[key]
+        return None
+
     def post(self, request):
         try:
             data = json.loads(request.body.decode('utf-8'))
-            print(data)
-            #new_data = ExperimentData()
-            #new_data.save()
+
+            new_data = ExperimentData()
+            new_data.green_roof_top = self.validate_key("green_roof_top", data)
+            new_data.green_roof_middle = self.validate_key("green_roof_middle", data)
+            new_data.green_roof_bottom = self.validate_key("green_roof_bottom", data)
+
+            new_data.control_top = self.validate_key("control_top", data)
+            new_data.control_bottom = self.validate_key("control_bottom", data)
+
+            new_data.moist_s0 = self.validate_key("moist_s0", data)
+            new_data.moist_s1 = self.validate_key("moist_s1", data)
+
+            if new_data.control_top and new_data.green_roof_middle:
+                new_data.surface_heat_difference = new_data.control_top - new_data.green_roof_middle
+
+            if new_data.control_bottom and new_data.green_roof_bottom:
+                new_data.bottom_difference = new_data.control_bottom - new_data.green_roof_bottom
+
+            new_data.save()
             return JsonResponse({'response':'success'})
         except:
             return JsonResponse({'response':'error'})
@@ -36,7 +61,7 @@ class AmbientSensorDataView(View):
 
                 if set(value).issubset(string.hexdigits):
                     new_data = AmbientData()
-                    new_data.recorded_at = datetime.strptime( timestamp, "%Y-%m-%d_%H:%M:%S" )
+                    new_data.recorded_at = make_aware(datetime.strptime( timestamp, "%Y-%m-%d_%H:%M:%S" ))
 
                     # Valid hex so convert
                     object = converter.SensorDataConverter(device_id, value)
