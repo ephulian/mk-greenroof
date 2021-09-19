@@ -34,11 +34,13 @@ class SensorDataConverter():
 
 
     def temp_range(self):
-        return (int(self.temp_input, 2) / 10) - 40
+        output = (int(self.temp_input, 2) / 10) - 40
+        return round(output, 2)
 
 
     def hum_range(self):
-        return int(self.hum_input, 2)/2
+        output = int(self.hum_input, 2)/2
+        return round(output, 2)
 
 
     def illum_range(self):
@@ -51,8 +53,9 @@ class SensorDataConverter():
             output = new_min
         else:
             new_range = (new_max - new_min)
-            output = (((int(self.illum_input, 2) - old_min) * new_range) / oldrange) + new_min
-        return output
+            output = (((int(self.illum_input, 2) - old_min) * new_range) / old_range) + new_min
+        return round(output, 2)
+
 
     def sensor_location(self):
         device_location = ''
@@ -75,7 +78,6 @@ def battery_reading(incoming_data):
         battery_percent = incoming_data[49:53]
         return battery_percent
     return False
-
 # Checks the device ID and returns its name and location
 # def sensor_location(device_id):
 #     device_location = ''
