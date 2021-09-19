@@ -36,17 +36,7 @@ class SensorDataConverter:
 
     #Returns a rounded decimal of lx
     def illum_range(self):
-        old_max = 255
-        old_min = 0
-        new_max = 100000
-        new_min = 0
-        old_range = (old_max - old_min)
-        if old_range == 0:
-            output = new_min
-        else:
-            new_range = (new_max - new_min)
-            output = (((int(self.illum_input, 2) - old_min) * new_range) / old_range) + new_min
-        return round(output, 2)
+        return round(int(self.illum_input, 2), 2)
 
     # Checks device ID and returns the name and location
     def sensor_location(self):
