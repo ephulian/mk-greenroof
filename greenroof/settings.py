@@ -33,10 +33,12 @@ def bool_from_env(key, default=False):
 
 DEBUG = bool_from_env('GR_DEBUG', False)
 
-if DEBUG:
-    ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = ["prototype.mkhackathon.org"]
+ALLOWED_HOSTS = ["*"]
+
+# if DEBUG:
+#     ALLOWED_HOSTS = ["*"]
+# else:
+#     ALLOWED_HOSTS = ["prototype.mkhackathon.org"]
 
 
 # Application definition
