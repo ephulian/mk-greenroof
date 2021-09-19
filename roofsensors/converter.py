@@ -14,8 +14,8 @@
 class SensorDataConverter():
 
     def __init__(self, device_id, sensor_data):
-        self.incoming_data = incoming_data
-        #sensor_data = incoming_data[-18:]
+        # self.incoming_data = incoming_data
+        # sensor_data = incoming_data[-18:]
         scale = 16
         num_of_bits = 8
         input_data = bin(int(sensor_data, scale))[2:].zfill(num_of_bits)
@@ -57,13 +57,13 @@ class SensorDataConverter():
     def sensor_location(self):
         device_location = ''
         device_name = ''
-        if self.device_id == '0420F51E':
+        if self.device_id == 'EnO_0420F51E':
             device_location = 'Near Green Roof'
             device_name = 'Red 1'
-        elif self.device_iddevice_id == '0420 FDDA':
+        elif self.device_id == 'EnO_0420FDDA':
             device_location = 'Near Control Slab'
             device_name = 'Red 2'
-        elif self.device_id == '0420 F51F':
+        elif self.device_id == 'EnO_0420F51F':
             device_location = 'Enviroment Temp'
             device_name = 'Red 3'
         return device_location, device_name
