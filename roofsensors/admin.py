@@ -21,6 +21,8 @@ class ExperimentAdmin(admin.ModelAdmin):
         'green_roof_top',
         'green_roof_middle',
         'green_roof_bottom',
+        'surface_heat_difference',
+        'bottom_difference',
         'control_top',
         'control_bottom',
         'moist_s0',
