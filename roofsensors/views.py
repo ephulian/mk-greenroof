@@ -2,9 +2,11 @@
 from django.views.generic import View
 from django.http import JsonResponse
 
-class SensorDateview(View):
-    def get(self, request):
-        return JsonResponse({'response':'success'})
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
+@method_decorator(csrf_exempt, name='dispatch')
+class SensorDateview(View):
     def post(self, request):
+        print(request.body)
         return JsonResponse({'response':'success'})
